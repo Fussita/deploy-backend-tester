@@ -1,5 +1,5 @@
 
 export class Pagination {
-    perPage?: number = 10;
-    page?: number = 1;
+    perPage?: number = 10
+    page?: number = 1
 }

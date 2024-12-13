@@ -12,6 +12,7 @@ interface EnvVars {
     DB_PASSWORD: string;
     DB_NAME: string;
     RABBITMQ_HOST: string;
+    PORT: string;
 }
 
 const envsSchema = joi.object({
@@ -19,7 +20,8 @@ const envsSchema = joi.object({
     DB_USER: joi.string().required(),
     DB_PASSWORD: joi.string().required(),
     DB_NAME: joi.string().required(),
-    RABBITMQ_HOST: joi.string().required()
+    RABBITMQ_HOST: joi.string().required(),
+    PORT: joi.string().required()
 }).unknown(true);
 
 const {error, value} = envsSchema.validate(process.env);
@@ -32,5 +34,6 @@ export const envs = {
     db_user: envVars.DB_USER,
     db_password: envVars.DB_PASSWORD,
     db_name: envVars.DB_NAME,
-    rabbitmq_host: envVars.RABBITMQ_HOST
+    rabbitmq_host: envVars.RABBITMQ_HOST,
+    port: envVars.PORT
 }
