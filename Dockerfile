@@ -1,31 +1,46 @@
 
-# TOMAR EN CUENTA EL DOCKER IGNORE
-# dist/ node_modules/ .git
+# TOMAR EN CUENTA EL DOCKER IGNORE: dist/ node_modules/ .git
 
-FROM node:18-alpine as deps
+# CREAR NETWORK: docker network create mi-red-bridge
 
-ENV NODE_ENV=production
-ENV PORT=80
+# CREAR IMAGEN: docker build -t nest-rest-api .
+    # El Punto significa el path relativo desde donde se ejecuta el compando
 
-# COPIAR DESDE MI PC Al DIRECTORIO EN EL WORKDIR
-# COPY . /app -> COPIA TODO DEL DIR ACTUAL AL DEL CONTENEDOR
-COPY package.json ./app/
-RUN npm install --frozen-lockfile --silent
-# EXPONER PUERTO DE LA APLICACION
-EXPOSE 80
-# COMANDO PARA EJECUTAR LA APLICACIÓN
-CMD ["npm", "start"]
+# CREAR CONTENEDOR DESDE LA IMAGEN
+    # El -p 80:3000 es para dirigir mi puerto 80 al puerto 3000 del contenedor
 
-# BUILDER
-FROM node:18-alpine as builder
-COPY --from=deps /app/node_modules ./app/node_modules
+    # Simple
+    # docker run -p 80:3000 --name nest-cont nest-rest-api
+
+    # Con ENV
+    # docker run -e NODE_ENV=production -e PORT=3000 -p 3000:3000 mi-imagen
+
+    # Con Network
+    # docker run -d --name contenedor1 --network mi-red-bridge imagen1
+
+# Renombrar Imagen
+    # docker image tag nest-rest rssa792/products-backend:1.0.0
+# Loguear en DockerHub
+    # docker login
+# Push Imagen to Repo
+    # docker push rssa792/products-backend:1.0.0
+
+FROM node:18-alpine
+ENV PORT=3000
+ENV DB_USER=admin
+ENV DB_PASSWORD=password
+ENV DB_HOST=mongodb
+ENV DB_NAME=mongodb
+
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+# INSTALAR PNPM GLOBALMENTE
+RUN npm install -g pnpm
+# INSTALAR DEPENDENCIAS
+RUN pnpm install --frozen-lockfile --silent
 COPY . .
-RUN npm build
-
-# RUNNER
-FROM node:18-alpine as runner
-RUN npm i --prod
-COPY --from=builder /app/dist ./app/dist
+RUN pnpm run build
+# EXPONER PUERTO DE LA APLICACION DEL CONTENEDOR, NO EN EL HOST
+EXPOSE $PORT
+# COMANDO PARA EJECUTAR LA APLICACIÓN
 CMD ["node", "dist/src/main"]
-
-
