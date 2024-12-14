@@ -1,6 +1,22 @@
-version: '4'
-
 services:
+
+  productos-backend:
+    container_name: app
+    depends_on:
+      - mongo
+    build:
+    ports:
+      - 80:3000
+    environment:
+      - PORT=3000
+      - DB_HOST=localhost
+      - DB_USER=admin
+      - DB_PASSWORD=password
+      - DB_NAME=mongodb
+
+    networks:
+      - practica-network
+
   mongo:
     image: mongo:5
     restart: always
