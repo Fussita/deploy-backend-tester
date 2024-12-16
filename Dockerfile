@@ -26,11 +26,6 @@
     # docker push rssa792/products-backend:1.0.0
 
 FROM node:18-alpine
-ENV PORT=3000
-ENV DB_USER=admin
-ENV DB_PASSWORD=password
-ENV DB_HOST=mongodb
-ENV DB_NAME=mongodb
 
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
@@ -40,7 +35,6 @@ RUN npm install -g pnpm
 RUN pnpm install --frozen-lockfile --silent
 COPY . .
 RUN pnpm run build
-# EXPONER PUERTO DE LA APLICACION DEL CONTENEDOR, NO EN EL HOST
-EXPOSE $PORT
+# EXPONER PUERTO DE LA APLICACION DEL CONTENEDOR, NO EN EL HOST EXPOSE $PORT
 # COMANDO PARA EJECUTAR LA APLICACIÓN
 CMD ["node", "dist/src/main"]

@@ -8,3 +8,5 @@ async function bootstrap() {
   await app.listen(envs.port ?? 3000);
 }
 bootstrap();
+
+//docker run -dp 80:4000 -e PORT=4000 deploy-backend-tester-products-backend:latest

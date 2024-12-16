@@ -1,37 +1,36 @@
 services:
 
-  productos-backend:
-    container_name: app
+  products-backend:
+    container_name: products_backend
     depends_on:
       - mongo
-    build:
+    build: ./
     ports:
-      - 80:3000
+      - "80:4000"
     environment:
-      - PORT=3000
-      - DB_HOST=localhost
+      - PORT=4000
+      - DB_HOST=product_mongo
       - DB_USER=admin
       - DB_PASSWORD=password
       - DB_NAME=mongodb
-
+      #- DB_HOST=${DB_HOST}
     networks:
-      - practica-network
+      - products-network
 
   mongo:
     image: mongo:5
     restart: always
     ports:
       - "27017:27017"
-    container_name: mongodb
+    container_name: product_mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME=admin
-      MONGO_INITDB_ROOT_PASSWORD=password
-      MONGODB_DATABASE=mongodb
-    #hostname: localhost
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGODB_DATABASE=mongodb
     volumes:
       - ./mongo:/data
     networks:
-      - product-backend-network
+      - products-network
       
 networks:
-  product-backend-network:
+  products-network:
