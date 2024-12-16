@@ -1,12 +1,14 @@
 services:
 
   products-backend:
+    image: products
     container_name: products_backend
     depends_on:
       - mongo
     build: ./
     ports:
       - "80:4000"
+      - "443:4000"
     environment:
       - PORT=4000
       - DB_HOST=product_mongo

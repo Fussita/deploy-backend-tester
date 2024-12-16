@@ -20,10 +20,17 @@
 
 # Renombrar Imagen
     # docker image tag nest-rest rssa792/products-backend:1.0.0
+    # docker image tag deploy-backend-tester-products-backend rssa792/products-backend:1.0.1
+
 # Loguear en DockerHub
     # docker login
 # Push Imagen to Repo
     # docker push rssa792/products-backend:1.0.0
+    # docker push rssa792/products-backend:1.0.1
+
+    # docker pull rssa792/products-backend:1.0.1
+    # docker run --name products-back rssa792/products-backend:1.0.1
+    # docker run -e DB_HOST=satanas-hosting --name sata-back rssa792/products-backend:1.0.1
 
 FROM node:18-alpine
 
