@@ -20,7 +20,7 @@
 
 # Renombrar Imagen
     # docker image tag nest-rest rssa792/products-backend:1.0.0
-    # docker image tag deploy-backend-tester-products-backend rssa792/products-backend:1.0.1
+    # docker image tag deploy-backend-tester-products-backend rssa792/products-backend:1.0.1 
 
 # Loguear en DockerHub
     # docker login
